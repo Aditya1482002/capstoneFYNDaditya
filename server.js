@@ -136,7 +136,7 @@ app.post("/upload",upload,async (req,res)=>{
     let category=req.body.category;
     let amount=req.body.amount;
     let email=req.body.email;
-    let fil=req.file.originalname;
+    let desc=req.body.desc;
     let date=new Date();
     let ids=date.getTime();
     console.log(req.body);
@@ -147,7 +147,7 @@ app.post("/upload",upload,async (req,res)=>{
         'category':category,
         'by':email,
         'amount':amount,
-        'filename':fil,
+        'desc':desc,
         'date':date
     })
     res.json({
