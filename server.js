@@ -23,7 +23,7 @@ const upload =multer({
     storage:multer.diskStorage({
         destination:function(req,file,cb)
         {
-            cb(null,"../web/public/upload") 
+            cb(null,__dirname+"/dist/upload") 
         },
         filename:function(req,file,cb)
         {
@@ -141,7 +141,7 @@ app.post("/upload",upload,async (req,res)=>{
     let ids=date.getTime();
     console.log(req.body);
     console.log(req.file);
-    await db.collection('tender').insertOne({
+    await db.collection('tenders').insertOne({
         'tid':ids,
         'tname':tendername,
         'category':category,
@@ -161,13 +161,15 @@ app.post("/upload",upload,async (req,res)=>{
 app.post("/oldtender",async (req,res)=>{
     let email=req.body.email;
     let db=await dbconnect();
-    let dta=await db.collection('tender').find({'by':email}).toArray();
+    let dta=await db.collection('tenders').find({'by':email}).toArray();
     res.send(dta);
 })
 
-app.get("/conapply",async function(req,res){
+app.post("/tenderapply",async function(req,res){
     let db=await dbconnect();
-    let dta=await db.collection('tender').find().toArray();
+    console.log("bh");
+    let dta=await db.collection('tenders').find().toArray();
+    console.log(dta);
     res.send(dta);
 })
 
@@ -260,7 +262,7 @@ app.post('/conresult',async (req,res)=>{
 app.post("/getfilename",async (req,res)=>{
     let tid=parseInt(req.body.tid);
     let db=await dbconnect();
-    const dta=await db.collection('tender').findOne({'tid':tid});
+    const dta=await db.collection('tenders').findOne({'tid':tid});
     console.warn(dta);
     res.send(dta);
 })
